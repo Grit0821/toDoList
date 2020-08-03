@@ -16,15 +16,8 @@ class SignUp extends Component {
       password_confirmation: ""
     }
   }
-
-  onChangeAccount = (e) => {
-    this.setState({account: e.target.value})
-  }
-  OnChangePassword = (e)=>{
-    this.setState({password: e.target.value})
-  }
-  OnChangePasswordConfirmation = (e)=>{
-    this.setState({password_confirmation: e.target.value})
+  onChange = (key, value) =>{
+    this.setState({[key]: value}) // 注意此处用变量做key值
   }
   submit = async ()=>{
     const {account, password, password_confirmation} = this.state
@@ -45,11 +38,11 @@ class SignUp extends Component {
           placeholder="请输入用户名"
           prefix={<UserOutlined className="site-form-item-icon" />}
           // value = {account}
-          onChange = {this.onChangeAccount}
+          onChange = {(e)=>{this.onChange('account', e.target.value)}}
         />
         <Input.Password placeholder="密码" onChange={this.OnChangePassword} />
-        <Input.Password placeholder="确认密码" onChange ={this.OnChangePasswordConfirmation} />
-        <Button type="primary" className="loginButton" onClick={this.submit}>注册</Button>
+        <Input.Password placeholder="确认密码" onChange ={(e)=>{this.onChange('password', e.target.value)}} />
+        <Button type="primary" className="signUpButton" onClick={this.submit}>注册</Button>
         <p>如果你有账号，请立即<Link to="/login">登录</Link></p>
       </div>
     )
