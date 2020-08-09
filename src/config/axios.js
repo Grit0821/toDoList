@@ -1,4 +1,5 @@
 import axios from 'axios'
+import history from './history'
 
 const appID = "Aqr7svz6qLe93ZmAA5TMRnSU"
 const appSecret = "mRWLFfvHLa8KZ3Q4ppbAY4EK"
@@ -31,7 +32,10 @@ instance.interceptors.response.use(function (response) {
   }
   return response;
 }, function (error) {
-  return Promise.reject(error);
+  if(error.response.status === 401){
+    history.push('/login')
+  }
+  return Promise.reject(error)
 });
 
 export default instance

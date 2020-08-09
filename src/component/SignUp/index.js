@@ -27,7 +27,7 @@ class SignUp extends Component {
       })
       console.log("成功")
     }catch(err){
-      throw new Error(err);
+      throw new Error('信息获取失败');
     }
   }
   render() {
