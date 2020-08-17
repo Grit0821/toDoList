@@ -1,34 +1,59 @@
 import React, { Component } from 'react';
-import {Button} from 'antd'
+import {Dropdown, Menu } from 'antd'
+import { DownOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import Todos from '../Todos/'
+import history from '..//../config/history'
 import axios from '../../config/axios'
+import './Index.scss'
+
+const logout = () => { // 清空token验证，跳转登录页
+  localStorage.setItem('x-token', '')
+  history.push('/login')
+}
+const menu = (
+  <Menu >
+    <Menu.Item key="1" icon={<UserOutlined />}>
+      个人设置
+    </Menu.Item>
+    <Menu.Item key="2" icon={<LogoutOutlined />} onClick={logout}>
+      注销
+    </Menu.Item>
+  </Menu>
+);
 
 class Index extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       user: {}
     }
   }
-  componentWillMount(){
+  componentWillMount() {
     this.getMe()
   }
-  getMe = async ()=>{
-    try{
+  getMe = async () => {
+    try {
       const response = await axios.get('me')
-      this.setState({user: response.data})
-    }catch(e){
-       
+      this.setState({ user: response.data })
+    } catch (e) {
+
     }
   }
-  logout = ()=>{ // 清空token验证，跳转登录页
-    localStorage.setItem('x-token','') 
-    this.props.history.push('/login')  
-  }
+
   render() {
     return (
-      <div>
-        <p>欢迎，{this.state.user.account}</p>
-        <Button onClick={this.logout}>注销</Button>
+      <div className='Index' id="Index">
+        <header>
+          <span className="logo">LOGO</span>
+          <Dropdown overlay={menu}>
+            <span>
+            {this.state.user.account} <DownOutlined />
+            </span>
+          </Dropdown>
+        </header>
+        <main>
+          <Todos/>
+        </main>
       </div>
     )
   }
