@@ -13,11 +13,11 @@ class TodoInput extends Component {
   onKeyUp = (e)=>{
     if(e.keyCode === 13 && this.state.description!== ''){ //判断enter键
       this.addTodo()
-      this.setState({description: ''})
     }
   }
   addTodo = ()=>{
     this.props.addTodo({description: this.state.description}) // 提交新todo
+    this.setState({description: ''})
   }
   render() {
     const {description} = this.state
