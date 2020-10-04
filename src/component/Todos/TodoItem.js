@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Checkbox } from 'antd';
 import { EnterOutlined, DeleteOutlined } from "@ant-design/icons"
+import classNames from 'classnames'
+import './TodoItem.scss'
 
 class TodoItem extends Component{
   
@@ -38,13 +40,18 @@ class TodoItem extends Component{
         />
         <div className="iconWrapper">
           <EnterOutlined />
-          <DeleteOutlined onClick={e => this.update({deleted:true})}/>
+          <DeleteOutlined class="icon" onClick={e => this.update({deleted:true})}/>
         </div>
       </div>
     )
-    const Text =<span onDoubleClick={this.toEditing} >{description}</span>
+    const Text = <span className="text" onDoubleClick={this.toEditing} >{description}</span>
+    const todoItemClass = classNames({
+      TodoItem: true,
+      editing: this.props.editing,
+      completed: this.props.completed
+    })
     return(
-      <div className="TodoItem" id="TodoItem">
+      <div className={todoItemClass} id="TodoItem">
         <Checkbox 
           checked={completed}
           onChange = {e => this.update({completed: e.target.checked})} 
