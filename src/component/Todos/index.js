@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux"
+import {initTodos} from '../../redux/actions'
 import TodoInput from './TodoInput'
 import axios from '../../config/axios'
 import TodoItem from './TodoItem'
 import './Todos.scss'
 
 class Todos extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      todos: []
-    }
-  }
-
   addTodo = async (params)=>{
     const {todos} = this.state
     try {
@@ -24,7 +18,7 @@ class Todos extends Component {
   }
 
   get unDeletedTodos(){
-    return this.state.todos.filter(t => !t.deleted)
+    return this.props.todos.filter(t => !t.deleted)
   }
 
   get unCompletedTodos(){
@@ -36,38 +30,9 @@ class Todos extends Component {
   }
 
   getTodos = async ()=>{
-    try {
-      const response = await axios.get('todos')
-      const todos = response.data.resources.map(t => Object.assign({},t,{editing: false}))
-      this.setState({
-        todos: todos
-      })
-    } catch (e) {
-      throw new Error(e)
-    }
-  }
-
-  updateTodo = async (id, params)=>{
-    const {todos} = this.state
-    try {
-      const response = await axios.put(`todos/${id}`,params)
-      const newTodos = todos.map(t => t.id === id? response.data.resource : t)
-      this.setState({todos: newTodos})
-    } catch (e) {
-      throw new Error(e)
-    }
-  }
-
-  toEditing = (id) => {
-    const todos = this.state.todos
-    const newTodos = todos.map(t => {
-      if(t.id === id){
-        return Object.assign({}, t, {editing: true})
-      }else{
-        return Object.assign({}, t, {editing: false})
-      }  
-    })
-    this.setState({todos: newTodos})
+    const response = await axios.get('todos')
+    const todos = response.data.resources.map(t => Object.assign({},t,{editing: false}))
+    this.props.initTodos(todos)
   }
 
   componentDidMount(){
@@ -79,29 +44,20 @@ class Todos extends Component {
       <div className="Todos" id="Todos">
         <TodoInput/>
         <div className="TodoLists">
-          {
-            this.unCompletedTodos.map(t => <TodoItem key={t.id} {...t}  update={this.updateTodo} 
-              toEditing = {this.toEditing}
-            />)
-          }
-          {
-            this.completedTodos.map(t => <TodoItem key={t.id} {...t}  update={this.updateTodo} 
-              toEditing = {this.toEditing}
-            />)
-          }
+          {this.unCompletedTodos.map(t => <TodoItem key={t.id} {...t} />)}
+          { this.completedTodos.map(t => <TodoItem key={t.id} {...t} />)}
         </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
   todos: state.todos,
-  ...ownProps
 })
 
 const mapDispatchToProps = { // 对象形式，addTodo键对应一个 acton creator, return的action会自动分发
-  
+  initTodos,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos)

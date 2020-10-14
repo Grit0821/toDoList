@@ -5,6 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 import axios from '../../config/axios' //相对路径
 import {Link} from 'react-router-dom'
 import './Login.scss'
+import history from '../../config/history'
 
 
 class Login extends Component {
@@ -28,6 +29,7 @@ class Login extends Component {
     }catch(err){
       throw new Error(err);
     }
+    history.push('')
   }
   render() {
     return (
