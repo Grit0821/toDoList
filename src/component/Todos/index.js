@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {connect} from "react-redux"
 import TodoInput from './TodoInput'
 import axios from '../../config/axios'
 import TodoItem from './TodoItem'
@@ -76,7 +77,7 @@ class Todos extends Component {
   render() {
     return (
       <div className="Todos" id="Todos">
-        <TodoInput addTodo={this.addTodo} />
+        <TodoInput/>
         <div className="TodoLists">
           {
             this.unCompletedTodos.map(t => <TodoItem key={t.id} {...t}  update={this.updateTodo} 
@@ -94,4 +95,13 @@ class Todos extends Component {
   }
 }
 
-export default Todos
+const mapStateToProps = (state, ownProps) => ({
+  todos: state.todos,
+  ...ownProps
+})
+
+const mapDispatchToProps = { // 对象形式，addTodo键对应一个 acton creator, return的action会自动分发
+  
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todos)

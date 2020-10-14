@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {Dropdown, Menu } from 'antd'
 import { DownOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
-import Todos from '../Todos/'
-import history from '..//../config/history'
+import Todos from '../Todos'
+import history from '../../config/history'
 import axios from '../../config/axios'
-import './Index.scss'
+import './Home.scss'
 
 const logout = () => { // 清空token验证，跳转登录页
   localStorage.setItem('x-token', '')
@@ -21,7 +21,7 @@ const menu = (
   </Menu>
 );
 
-class Index extends Component {
+class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -42,7 +42,7 @@ class Index extends Component {
 
   render() {
     return (
-      <div className='Index' id="Index">
+      <div className='Home' id="Home">
         <header>
           <span className="logo">LOGO</span>
           <Dropdown overlay={menu}>
@@ -59,4 +59,4 @@ class Index extends Component {
   }
 }
 
-export default Index
+export default Home
