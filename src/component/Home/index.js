@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Dropdown, Menu } from 'antd'
 import { DownOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import Todos from '../Todos'
+import Tomatoes from '../Tomatoes'
 import history from '../../config/history'
 import axios from '../../config/axios'
 import './Home.scss'
@@ -52,6 +53,7 @@ class Home extends Component {
           </Dropdown>
         </header>
         <main>
+          <Tomatoes/>
           <Todos/>
         </main>
       </div>
